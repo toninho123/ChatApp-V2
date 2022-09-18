@@ -1,0 +1,149 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.file-input {
+	opacity: 0;
+	position: absolute;
+}
+
+/*
+	height: 600px;
+	width: 66rem;
+	background-color: rgb(91, 91, 91);
+	border-radius: 5px;
+	margin-bottom: 2px;
+
+Form Button {
+	width: 100%;
+}
+
+h2 {
+	color: #313131;
+}
+
+h6 {
+	color: greenyellow;
+}
+
+hr.line {
+	border-left: 1px solid black;
+	height: 737px;
+	position: absolute;
+	left: 25.6%;
+	margin-left: -3px;
+	top: -15px;
+}
+
+.app {
+	margin: auto;
+	padding-top: 40px;
+	width: 950px;
+	text-align: center;
+}
+
+.lobby {
+	width: 400px;
+	margin: auto;
+}
+
+.chat {
+	display: grid;
+}
+
+.leave-room {
+	text-align: right;
+	margin-bottom: 4px;
+}
+
+.user-list {
+	float: left;
+	background-color: #313131;
+	color: white;
+	width: 200px;
+	height: 440px;
+	margin-right: 4px;
+}
+
+.message-container {
+	height: 600px;
+	width: 66rem;
+	background-color: rgb(91, 91, 91);
+	overflow: auto;
+	border-radius: 5px;
+	margin-bottom: 2px;
+}
+
+.user-message {
+	text-align: left;
+	padding-right: 5px;
+	font-size: 18px;
+}
+
+.message {
+	padding: 5px;
+	font-size: 14px;
+	color: black;
+	border-radius: 5px;
+	margin-top: 3px;
+}
+
+.from-user {
+	font-size: x-large;
+	margin-bottom: 3px;
+	margin-right: 5px;
+}
+
+.div-contact {
+	position: absolute;
+	left: 0px;
+	width: 400px;
+	padding: 10px;
+}
+
+.chat-element {
+	margin-left: 30%;
+	width: 50%;
+	padding: 10px;
+}
+
+.my-message-view {
+	background-color: rgb(226, 151, 1);
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+
+	width: 790px;
+	border: 3px solid #73ad21;
+	padding: 10px;
+	margin-left: 240px;
+	margin-bottom: 20px;
+}
+
+.other-message-view {
+	background-color: rgb(23, 176, 0);
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	margin-bottom: 20px;
+
+	width: 700px;
+	border: 3px solid #73ad21;
+	padding: 10px;
+	margin-left: 15px;
+}
+
+.button-submit {
+	float: right;
+}
+
+.navbar-always-top {
+	position: fixed;
+	width: 67.7%;
+	border-radius: 3px;
+}
+
+.dropdown-content {
+	margin-left: 580px;
+}
+*/

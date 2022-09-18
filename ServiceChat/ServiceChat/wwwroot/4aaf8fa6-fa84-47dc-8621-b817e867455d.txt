@@ -1,0 +1,102 @@
+salas
+
+ID
+NOME
+ATIVA
+
+grupos
+
+id
+id_user
+nome
+estado
+admin
+convite
+ativo
+
+mensagens
+
+id
+id_user
+estado
+anexo
+ativo
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+
+UTILIZADORES
+
+int Id auto_increment,
+int num_escola,
+string nome,
+bool estado,
+int grupo
+int id_mensagem
+
+
+Primary key (Id)
+Foreign key (grupo) references grupo(Id_Grupo)
+Foreign key (num_escola) references grupo(Id_user)
+Foreign key (id_mensagem) references mensagem (Id)
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+SALA
+
+int Id auto_increment
+string nome
+bool ativa
+
+primary key (Id)
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+GRUPO
+
+int Id auto_increment,
+int Id_Grupo,
+int Id_User,
+string nome,
+bool estado,
+int admin
+string convite,
+bool ativa
+
+primary key (Id)
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+MENSAGEM
+
+int Id auto_increment,
+int id_mensagem,
+string nome_rementente,
+(string nome_destinatario??)
+string texto
+blob ficheiros
+date hora_mensagem
+
+Primary key (Id)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

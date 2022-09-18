@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cockatrice_deck version="1">
+    <deckname>Colourless Deck</deckname>
+    <comments></comments>
+    <zone name="main">
+        <card number="1" name="Deck"/>
+        <card number="4" name="Mind Stone"/>
+        <card number="4" name="Guardian Idol"/>
+        <card number="4" name="Palladium Myr"/>
+        <card number="4" name="Hedron Archive"/>
+        <card number="4" name="Forsaken Monument"/>
+        <card number="3" name="Ugin, the Spirit Dragon"/>
+        <card number="3" name="Ulamog, the Ceaseless Hunger"/>
+        <card number="3" name="Kozilek, Butcher of Truth"/>
+        <card number="3" name="Blightsteel Colossus"/>
+        <card number="2" name="Emrakul, the Promised End"/>
+        <card number="2" name="Emrakul, the Aeons Torn"/>
+        <card number="4" name="Urza's Mine"/>
+        <card number="4" name="Urza's Power Plant"/>
+        <card number="4" name="Urza's Tower"/>
+        <card number="4" name="Reliquary Tower"/>
+        <card number="4" name="Crawling Barrens"/>
+        <card number="4" name="Darksteel Citadel"/>
+    </zone>
+</cockatrice_deck>
