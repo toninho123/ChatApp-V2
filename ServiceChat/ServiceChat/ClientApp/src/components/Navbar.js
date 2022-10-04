@@ -8,17 +8,17 @@ import { faAlignJustify } from "@fortawesome/free-solid-svg-icons";
 export default function Navbar(props) {
 	const room = useContext(RoomContext);
 
-	const NOME_SALA = String(room.roomName);
+	const NOME_SALA = String(localStorage.getItem("roomName"));
 
 	return (
 		<>
-			{room.roomName !== "" ? (
+			{localStorage.getItem("roomName") !== "" ? (
 				<nav key={uuid()} className='flex-shrink-0 bg-red-600'>
-					<div className='max-w-7xl mx-auto px-2 sm:px-4 lg:px-8'>
+					<div className='max-w-4xl px-2 sm:px-4 lg:px-8'>
 						<div className='relative flex items-center h-16'>
 							<div className='flex lg:hidden'></div>
-							<div className='lg:block lg:w-96'>
-								<div className='flex items-center'>
+							<div className='lg:block lg:w-80'>
+								<div className='flex items-end'>
 									<div className='flex'>
 										<div className='px-3 py-2 rounded-md text-sm font-medium text-white hover:text-white'>
 											{NOME_SALA}

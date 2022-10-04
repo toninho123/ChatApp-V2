@@ -21,7 +21,6 @@ function Chat() {
 			});
 
 			connection.on("ReceiveMessage", (user, message) => {
-				console.log("receiving...");
 				setMessages((messages) => [...messages, { user, message }]);
 			});
 

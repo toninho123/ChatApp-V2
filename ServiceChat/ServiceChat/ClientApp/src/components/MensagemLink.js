@@ -6,6 +6,7 @@ export default function Mensagem({
 	texto,
 	file,
 	corTexto,
+	addUtilizador,
 }) {
 	return (
 		<div

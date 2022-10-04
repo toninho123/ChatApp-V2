@@ -11,8 +11,12 @@ export default function Login() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+
 		axios.get("api/utilizador/" + numeroUtilizador).then((res) => {
+			console.log(res.data);
 			setUser(res.data[0].Id);
+			localStorage.setItem("user", res.data[0].Id);
+			localStorage.setItem("userName", res.data[0].Nome);
 			setUserName(res.data[0].Nome);
 			navigate("/hom");
 		});

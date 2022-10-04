@@ -11,8 +11,8 @@ import { RoomContext } from "../provider/Room";
 export default function Salas({ grupo, isAdmin, JoinRoom, closeConnection }) {
 	const [salas, setSalas] = useState([]);
 	const user = useContext(AuthContext);
-	const ID_USER = String(user.user);
-	const NOME_USER = String(user.userName);
+	const ID_USER = String(localStorage.getItem("user"));
+	const NOME_USER = String(localStorage.getItem("userName"));
 
 	const { setAdmin } = useContext(AdminContext);
 	const { setRoom } = useContext(RoomContext);
@@ -21,7 +21,10 @@ export default function Salas({ grupo, isAdmin, JoinRoom, closeConnection }) {
 	const handleClick = (e, m) => {
 		e.preventDefault();
 		setAdmin({ adm: isAdmin });
+		localStorage.setItem("admin", isAdmin);
 		setRoom(m.Id);
+		localStorage.setItem("room", m.Id);
+		localStorage.setItem("roomName", m.Nome);
 		closeConnection();
 		JoinRoom(ID_USER, NOME_USER, m.Nome);
 		setRoomName(m.Nome);
@@ -33,7 +36,7 @@ export default function Salas({ grupo, isAdmin, JoinRoom, closeConnection }) {
 	};
 
 	useEffect(() => {
-		axios.get("api/sala").then(function (response) {
+		axios.get("api/chat_grupos").then(function (response) {
 			setSalas(response.data);
 		});
 	}, []);
@@ -60,7 +63,7 @@ export default function Salas({ grupo, isAdmin, JoinRoom, closeConnection }) {
 								</p>
 							</div>
 							<small className='text-sm text-gray-500 truncate no-underline'>
-								{salaAtiva(m.isAtiva)}
+								{salaAtiva(m.Ativo)}
 							</small>
 						</div>
 					</a>

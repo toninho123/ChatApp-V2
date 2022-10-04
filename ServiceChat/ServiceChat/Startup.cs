@@ -68,6 +68,7 @@ namespace ServiceChat
 
             app.UseEndpoints(endpoints =>
             {
+
                 endpoints.MapControllerRoute(
                     name: "api",
                     pattern: "{controller=File}/{action=Index}/{id?}");

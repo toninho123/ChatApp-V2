@@ -16,14 +16,15 @@ export default function MembrosGrupo(props) {
 	const cancelButtonRef = useRef(null);
 
 	useEffect(() => {
-		if (room.room)
+		if (localStorage.getItem("room"))
 			axios
 				.get("api/utilizador", {
 					params: {
-						id: room.room,
+						id: localStorage.getItem("room"),
 					},
 				})
 				.then((res) => {
+					console.log("USER MEMBROS", res.data);
 					setUtilizadores(res.data);
 				});
 	}, []);
@@ -70,28 +71,25 @@ export default function MembrosGrupo(props) {
 							leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
 						>
 							<Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-4xl'>
-								<div class='overflow-x-auto relative shadow-md sm:rounded-lg '>
-									{admin.admin.adm === true ? (
-										<table class='w-full text-sm text-left text-gray-500 ext-gray-400'>
-											<thead class='text-xs text-gray-700 uppercase bg-gray-50'>
+								<div className='overflow-x-auto relative shadow-md sm:rounded-lg '>
+									{localStorage.getItem("admin") === true ? (
+										<table className='w-full text-sm text-left text-gray-500 ext-gray-400'>
+											<thead className='text-xs text-gray-700 uppercase bg-gray-50'>
 												<tr>
-													<th scope='col' class='py-3 px-6'>
+													<th scope='col' className='py-3 px-6'>
 														Id
 													</th>
-													<th scope='col' class='py-3 px-6'>
+													<th scope='col' className='py-3 px-6'>
 														Nome
 													</th>
-													<th scope='col' class='py-3 px-6'>
+													<th scope='col' className='py-3 px-6'>
 														Numero
 													</th>
-													<th scope='col' class='py-3 px-6'>
-														Função
-													</th>
-													<th scope='col' class='py-3 px-6'>
+													<th scope='col' className='py-3 px-6'>
 														Estado
 													</th>
-													<th scope='col' class='py-3 px-6'>
-														<span class='sr-only'>Editar</span>
+													<th scope='col' className='py-3 px-6'>
+														<span className='sr-only'>Editar</span>
 													</th>
 												</tr>
 											</thead>
@@ -99,23 +97,26 @@ export default function MembrosGrupo(props) {
 												{utilizadores.map((e) => (
 													<tr
 														key={uuid()}
-														class='bg-gray-300 border-b hover:bg-gray hover:bg-opacity-50 '
+														className='bg-gray-300 border-b hover:bg-gray hover:bg-opacity-50 '
 													>
-														<td class='text-gray-900 py-4 px-6'>{e.Id}</td>
-														<td class='text-gray-900 py-4 px-6'>
+														<td className='text-gray-900 py-4 px-6'>{e.Id}</td>
+														<td className='text-gray-900 py-4 px-6'>
 															{e.nomeUtilizador}
 														</td>
-														<td class='text-gray-900 py-4 px-6'>
-															{e.Numero_Aluno}
+														<td className='text-gray-900 py-4 px-6'>
+															{e.Numero_Identificacao}
 														</td>
-														<td class='text-gray-900 text-gray-900py-4 px-6'>
-															{e.Funcao}
+														<td className='text-gray-900 py-4 px-6'>
+															{e.Ativo === true ? (
+																<p className='active_user'></p>
+															) : (
+																<p className='not_active_user'></p>
+															)}
 														</td>
-														<td class='text-gray-900 py-4 px-6'>{e.Estado}</td>
 														{user.user == e.Id ? (
 															<td></td>
 														) : (
-															<td class='text-gray-900 py-4 px-6 text-right'>
+															<td className='text-gray-900 py-4 px-6 text-right'>
 																<button
 																	onClick={() => handleClick(e.Id)}
 																	className='h-8 px-4 m-2 text-sm text-indigo-100 transition-colors duration-150 bg-red-600 rounded-lg focus:shadow-outline hover:bg-red-700'
@@ -129,22 +130,19 @@ export default function MembrosGrupo(props) {
 											</tbody>
 										</table>
 									) : (
-										<table class='w-full text-sm text-left text-gray-500 ext-gray-400'>
-											<thead class='text-xs text-gray-700 uppercase bg-gray-50'>
+										<table className='w-full text-sm text-left text-gray-500 ext-gray-400'>
+											<thead className='text-xs text-gray-700 uppercase bg-gray-50'>
 												<tr>
-													<th scope='col' class='py-3 px-6'>
+													<th scope='col' className='py-3 px-6'>
 														Id
 													</th>
-													<th scope='col' class='py-3 px-6'>
+													<th scope='col' className='py-3 px-6'>
 														Nome Utilizador
 													</th>
-													<th scope='col' class='py-3 px-6'>
+													<th scope='col' className='py-3 px-6'>
 														Numero
 													</th>
-													<th scope='col' class='py-3 px-6'>
-														Função
-													</th>
-													<th scope='col' class='py-3 px-6'>
+													<th scope='col' className='py-3 px-6'>
 														Estado
 													</th>
 												</tr>
@@ -153,20 +151,19 @@ export default function MembrosGrupo(props) {
 												{utilizadores.map((e) => (
 													<tr
 														key={uuid()}
-														class='bg-gray-300 border-b hover:bg-gray hover:bg-opacity-50 '
+														className='bg-gray-300 border-b hover:bg-gray hover:bg-opacity-50 '
 													>
-														<td class='text-gray-900 py-4 px-6'>{e.Id}</td>
-														<td class='text-gray-900 py-4 px-6'>
+														<td className='text-gray-900 py-4 px-6'>{e.Id}</td>
+														<td className='text-gray-900 py-4 px-6'>
 															{e.nomeUtilizador}
 														</td>
-														<td class='text-gray-900 py-4 px-6'>
-															{e.Numero_Aluno}
+														<td className='text-gray-900 py-4 px-6'>
+															{e.Numero_Identificacao}
 														</td>
-														<td class='text-gray-900 text-gray-900py-4 px-6'>
-															{e.Funcao}
+														<td className='text-gray-900 py-4 px-6'>
+															{e.Ativo}
 														</td>
-														<td class='text-gray-900 py-4 px-6'>{e.Estado}</td>
-														<td class='text-gray-900 py-4 px-6 text-right'></td>
+														<td className='text-gray-900 py-4 px-6 text-right'></td>
 													</tr>
 												))}
 											</tbody>

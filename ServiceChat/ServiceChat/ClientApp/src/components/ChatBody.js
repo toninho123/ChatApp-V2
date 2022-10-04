@@ -4,6 +4,8 @@ import MensagemLink from "./MensagemLink";
 import axios from "axios";
 import Navbar from "./Navbar";
 import "../App.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { v4 as uuid } from "uuid";
 import { AuthContext } from "../provider/Auth";
 import { RoomContext } from "../provider/Room";
@@ -14,17 +16,17 @@ export default function ChatBody({ messages }) {
 	const room = useContext(RoomContext);
 
 	useEffect(() => {
-		if (room.room > 0)
+		if (localStorage.getItem("room") > 0)
 			axios
-				.get("api/mensagem", {
+				.get("api/chat_mensagens", {
 					params: {
-						id: room.room,
+						id: localStorage.getItem("room"),
 					},
 				})
 				.then(function (response) {
 					setMensagem(response.data);
 				});
-	}, [room.room]);
+	}, [localStorage.getItem("room")]);
 
 	const buildMessage = (message) => {
 		const obj =
@@ -33,10 +35,12 @@ export default function ChatBody({ messages }) {
 				: message.message;
 		const objUser = message.user;
 
-		const nomeDoUtilizador = mensagem.find((e) => e.Id_Utilizador == user.user);
+		const nomeDoUtilizador = mensagem.find(
+			(e) => e.Id_Utilizador == localStorage.getItem("user")
+		);
 
 		if (obj.type === "link")
-			if (objUser.id == user.user) {
+			if (objUser.id == localStorage.getItem("user")) {
 				return (
 					<MensagemLink
 						classe={"justify-end"}
@@ -56,12 +60,13 @@ export default function ChatBody({ messages }) {
 				);
 			}
 		else {
-			if (objUser.id == user.user) {
+			if (objUser.id == localStorage.getItem("user")) {
 				return (
 					<Mensagem
 						classe={"justify-end"}
 						corTexto={"bg-red-400"}
 						texto={obj.value}
+						utilizadorId={objUser.id}
 					/>
 				);
 			} else {
@@ -82,26 +87,56 @@ export default function ChatBody({ messages }) {
 			<div className='overflow-auto'>
 				{mensagem.map((m) => (
 					<div key={uuid()} className='from-user'>
-						{m.Ficheiro === "" ? (
+						{m.Anexo === "" ? (
 							<Mensagem
 								key={uuid()}
-								classe={m.Id_Utilizador == user.user ? "justify-end" : ""}
+								classe={
+									m.Id_Utilizador == localStorage.getItem("user")
+										? "justify-end"
+										: ""
+								}
 								corTexto={
-									m.Id_Utilizador == user.user ? "bg-red-400" : "bg-blue-400"
+									m.Id_Utilizador == localStorage.getItem("user")
+										? "bg-red-400"
+										: "bg-blue-400"
 								}
 								texto={m.Texto}
-								utilizador={m.Id_Utilizador == user.user ? "" : m.Nome}
+								utilizador={
+									m.Id_Utilizador == localStorage.getItem("user") ? "" : m.Nome
+								}
+								addUtilizador={
+									m.Id_Utilizador == localStorage.getItem("user") ? (
+										""
+									) : (
+										<FontAwesomeIcon icon={faUserPlus} />
+									)
+								}
 							/>
 						) : (
 							<MensagemLink
 								key={uuid()}
-								classe={m.Id_Utilizador == user.user ? "justify-end" : ""}
+								classe={
+									m.Id_Utilizador == localStorage.getItem("user")
+										? "justify-end"
+										: ""
+								}
 								corTexto={
-									m.Id_Utilizador == user.user ? "bg-red-400" : "bg-blue-400"
+									m.Id_Utilizador == localStorage.getItem("user")
+										? "bg-red-400"
+										: "bg-blue-400"
 								}
 								texto={m.Texto}
 								file={m.Ficheiro}
-								utilizador={m.Id_Utilizador == user.user ? "" : m.Nome}
+								utilizador={
+									m.Id_Utilizador == localStorage.getItem("user") ? "" : m.Nome
+								}
+								addUtilizador={
+									m.Id_Utilizador == localStorage.getItem("user") ? (
+										""
+									) : (
+										<FontAwesomeIcon icon={faUserPlus} />
+									)
+								}
 							/>
 						)}
 					</div>

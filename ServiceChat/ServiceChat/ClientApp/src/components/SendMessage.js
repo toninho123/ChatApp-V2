@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-import { Form, Button, FormControl, InputGroup } from "react-bootstrap";
 import axios from "axios";
 import { AuthContext } from "../provider/Auth";
 import { RoomContext } from "../provider/Room";
@@ -16,7 +15,6 @@ export default function SendMessage(props) {
 	const user = useContext(AuthContext);
 
 	const saveFile = (e) => {
-		console.log(e.target.files[0]);
 		setFile(e.target.files[0]);
 		setFileName(e.target.files[0].name);
 	};
@@ -25,25 +23,21 @@ export default function SendMessage(props) {
 		const formData = new FormData();
 		formData.append("formFile", file);
 		formData.append("fileName", fileName);
-		formData.append("roomId", room.room);
+		formData.append("roomId", localStorage.getItem("room"));
 
 		try {
 			const res = await axios.post("/api/file", formData);
-			console.log("RESPOND: ", res.data);
 			props.sendMessage({ type: "link", value: fileName, file: res.data });
 			formData.append("formFile", "");
 			formData.append("fileName", "");
 
-			axios
-				.post("api/mensagem", {
-					Texto: fileName,
-					Ficheiro: res.data,
-					Id_Sala: room.room,
-					Id_Utilizador: user.user,
-				})
-				.then(function (response) {
-					console.log(response.data);
-				});
+			axios.post("api/chat_mensagens", {
+				Texto: fileName,
+				Anexo: res.data,
+				Anexo_Nome: fileName,
+				Id_Grupo: localStorage.getItem("room"),
+				Id_Utilizador: localStorage.getItem("user"),
+			});
 		} catch (ex) {
 			console.log(ex);
 		}
@@ -51,11 +45,12 @@ export default function SendMessage(props) {
 
 	const postMessage = () => {
 		axios
-			.post("api/mensagem", {
+			.post("api/chat_mensagens", {
 				Texto: message.value,
-				Ficheiro: "",
-				Id_Sala: room.room,
-				Id_Utilizador: user.user,
+				Anexo: "",
+				Anexo_Nome: "",
+				Id_Grupo: localStorage.getItem("room"),
+				Id_Utilizador: localStorage.getItem("user"),
 			})
 			.then(function (response) {
 				console.log(response.data);
@@ -101,6 +96,7 @@ export default function SendMessage(props) {
 							<FontAwesomeIcon icon={faPaperPlane} />
 						</button>
 					</span>
+
 					<input
 						className={
 							"focus:ring-red-500 focus:border-red-500 w-full focus:placeholder-gray-400 text-gray-600 placeholder-gray-300 pl-36 bg-gray-100 rounded-full py-3 border-gray-200"
@@ -112,6 +108,9 @@ export default function SendMessage(props) {
 						}
 						value={message.value}
 					/>
+
+					<input type='file' onChange={saveFile} />
+					<input type='button' value='upload' onClick={uploadFile} />
 				</div>
 			</form>
 		</div>

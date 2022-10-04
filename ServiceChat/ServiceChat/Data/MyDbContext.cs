@@ -10,8 +10,8 @@ namespace ServiceChat.Data
 
         }
         public DbSet<Utilizador> Utilizador { get; set; }
-        public DbSet<Sala> Sala { get; set; }
-        public DbSet<Grupo> Grupo { get; set; }
-        public DbSet<Mensagem> Mensagem { get; set; }
+        public DbSet<Chat_Grupos> Sala { get; set; }
+        public DbSet<Chat_Membros> Grupo { get; set; }
+        public DbSet<Chat_Mensagens> Mensagem { get; set; }
     }
 }

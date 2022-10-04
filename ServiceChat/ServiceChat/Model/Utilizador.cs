@@ -8,14 +8,18 @@ namespace ServiceChat.Model
     {
         [Key]
         public int Id { get; set; }
+
+        public int Numero_Identificacao { get; set; }
+
         [Required]
-        public int Numero_Aluno { get; set; }
         [MaxLength(30)]
         public string Nome { get; set; }
-        public string Funcao { get; set; }
-        public string Estado { get; set; }  
-        public ICollection<Grupo> Grupo { get; set; }
-        public ICollection<Mensagem> Mensagem { get; set; }
+
+        public bool Ativo { get; set; }
+        
+        public ICollection<Chat_Membros> Grupo { get; set; }
+        
+        public ICollection<Chat_Mensagens> Mensagem { get; set; }
     }
 
 }

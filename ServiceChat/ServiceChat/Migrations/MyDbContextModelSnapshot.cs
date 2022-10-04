@@ -17,7 +17,48 @@ namespace ServiceChat.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
                 .HasAnnotation("ProductVersion", "5.0.17");
 
-            modelBuilder.Entity("ServiceChat.Model.Grupo", b =>
+            modelBuilder.Entity("ServiceChat.Model.Chat_Grupos", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Capa")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("Dt_Criado")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("Id_Curso")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id_Entidade")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<int>("Tipo")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Updated_At")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id_Curso");
+
+                    b.HasIndex("Id_Entidade");
+
+                    b.ToTable("Sala");
+                });
+
+            modelBuilder.Entity("ServiceChat.Model.Chat_Membros", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -26,42 +67,52 @@ namespace ServiceChat.Migrations
                     b.Property<bool>("Administrador")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("Estado")
-                        .HasColumnType("text");
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("tinyint(1)");
 
-                    b.Property<int>("Id_Sala")
+                    b.Property<DateTime>("Dt_Criado")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("Id_Grupo")
                         .HasColumnType("int");
 
                     b.Property<int>("Id_Utilizador")
                         .HasColumnType("int");
 
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("varchar(30)");
+                    b.Property<bool>("Lido")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("Saiu")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime>("Updated_At")
+                        .HasColumnType("datetime");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Id_Sala");
+                    b.HasIndex("Id_Grupo");
 
                     b.HasIndex("Id_Utilizador");
 
                     b.ToTable("Grupo");
                 });
 
-            modelBuilder.Entity("ServiceChat.Model.Mensagem", b =>
+            modelBuilder.Entity("ServiceChat.Model.Chat_Mensagens", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Data_Mensagem")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("Ficheiro")
+                    b.Property<string>("Anexo")
                         .HasColumnType("text");
 
-                    b.Property<int>("Id_Sala")
+                    b.Property<string>("Anexo_Nome")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("Dt_Criado")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("Id_Grupo")
                         .HasColumnType("int");
 
                     b.Property<int>("Id_Utilizador")
@@ -70,16 +121,19 @@ namespace ServiceChat.Migrations
                     b.Property<string>("Texto")
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("Updated_At")
+                        .HasColumnType("datetime");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("Id_Sala");
+                    b.HasIndex("Id_Grupo");
 
                     b.HasIndex("Id_Utilizador");
 
                     b.ToTable("Mensagem");
                 });
 
-            modelBuilder.Entity("ServiceChat.Model.Sala", b =>
+            modelBuilder.Entity("ServiceChat.Model.Curso", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -87,15 +141,28 @@ namespace ServiceChat.Migrations
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<bool>("isAtiva")
-                        .HasColumnType("tinyint(1)");
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sala");
+                    b.ToTable("Curso");
+                });
+
+            modelBuilder.Entity("ServiceChat.Model.Empresa", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Empresa");
                 });
 
             modelBuilder.Entity("ServiceChat.Model.Utilizador", b =>
@@ -104,17 +171,15 @@ namespace ServiceChat.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Estado")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Funcao")
-                        .HasColumnType("text");
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Nome")
+                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("varchar(30)");
 
-                    b.Property<int>("Numero_Aluno")
+                    b.Property<int>("Numero_Identificacao")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -122,11 +187,30 @@ namespace ServiceChat.Migrations
                     b.ToTable("Utilizador");
                 });
 
-            modelBuilder.Entity("ServiceChat.Model.Grupo", b =>
+            modelBuilder.Entity("ServiceChat.Model.Chat_Grupos", b =>
                 {
-                    b.HasOne("ServiceChat.Model.Sala", "Sala")
+                    b.HasOne("ServiceChat.Model.Curso", "Curso")
+                        .WithMany("Sala")
+                        .HasForeignKey("Id_Curso")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ServiceChat.Model.Empresa", "Empresa")
+                        .WithMany("Sala")
+                        .HasForeignKey("Id_Entidade")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Curso");
+
+                    b.Navigation("Empresa");
+                });
+
+            modelBuilder.Entity("ServiceChat.Model.Chat_Membros", b =>
+                {
+                    b.HasOne("ServiceChat.Model.Chat_Grupos", "Sala")
                         .WithMany("Grupo")
-                        .HasForeignKey("Id_Sala")
+                        .HasForeignKey("Id_Grupo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -141,11 +225,11 @@ namespace ServiceChat.Migrations
                     b.Navigation("Utilizador");
                 });
 
-            modelBuilder.Entity("ServiceChat.Model.Mensagem", b =>
+            modelBuilder.Entity("ServiceChat.Model.Chat_Mensagens", b =>
                 {
-                    b.HasOne("ServiceChat.Model.Sala", "Sala")
+                    b.HasOne("ServiceChat.Model.Chat_Grupos", "Sala")
                         .WithMany("Mensagem")
-                        .HasForeignKey("Id_Sala")
+                        .HasForeignKey("Id_Grupo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -160,11 +244,21 @@ namespace ServiceChat.Migrations
                     b.Navigation("Utilizador");
                 });
 
-            modelBuilder.Entity("ServiceChat.Model.Sala", b =>
+            modelBuilder.Entity("ServiceChat.Model.Chat_Grupos", b =>
                 {
                     b.Navigation("Grupo");
 
                     b.Navigation("Mensagem");
+                });
+
+            modelBuilder.Entity("ServiceChat.Model.Curso", b =>
+                {
+                    b.Navigation("Sala");
+                });
+
+            modelBuilder.Entity("ServiceChat.Model.Empresa", b =>
+                {
+                    b.Navigation("Sala");
                 });
 
             modelBuilder.Entity("ServiceChat.Model.Utilizador", b =>

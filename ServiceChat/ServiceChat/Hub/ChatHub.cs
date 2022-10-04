@@ -32,7 +32,7 @@ namespace ServiceChat.Hubs
                Clients.Group(userConnection.Room).SendAsync("ReceiveMessage", 
                    _botUser, new { type = "text", value = $"{userConnection.User} has left"});
 
-                update(new Utilizador {Id = Convert.ToInt32(userConnection.Id), Estado = "Inativo" });
+                update(new Utilizador {Id = Convert.ToInt32(userConnection.Id), Ativo = false });
 
                 SendUsersConnected(userConnection.Room);
             }
@@ -42,7 +42,7 @@ namespace ServiceChat.Hubs
 
         public void update(Utilizador utilizador)
         {
-            string query = @"update utilizador set Estado= @Estado where Id= @Id";
+            string query = @"update utilizador set Ativo = @Ativo where Id= @Id";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("Default");
@@ -53,7 +53,7 @@ namespace ServiceChat.Hubs
                 using (MySqlCommand myCommand = new MySqlCommand(query, myCon))
                 {
                     myCommand.Parameters.AddWithValue("@Id", utilizador.Id);
-                    myCommand.Parameters.AddWithValue("@Estado", utilizador.Estado);
+                    myCommand.Parameters.AddWithValue("@Ativo", utilizador.Ativo);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -70,7 +70,6 @@ namespace ServiceChat.Hubs
             }
         }
 
-
         public async Task JoinRoom(UserConnection userConnection)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, userConnection.Room);
@@ -80,8 +79,8 @@ namespace ServiceChat.Hubs
             await Clients.Group(userConnection.Room)
                 .SendAsync("ReceiveMessage", new { id = userConnection.Id, nome = userConnection.User, room = userConnection.Room }, new { type = "text", value = $"{userConnection.User} entrou {userConnection.Room}" });
 
-            update(new Utilizador { Id = Convert.ToInt32(userConnection.Id), Estado = "Ativo" });
-
+            update(new Utilizador { Id = Convert.ToInt32(userConnection.Id), Ativo = true });
+            
 
             await SendUsersConnected(userConnection.Room);
         }
