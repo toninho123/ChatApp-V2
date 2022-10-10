@@ -46,7 +46,7 @@ namespace ServiceChat.Controllers
 
 
         [HttpPost]
-        public JsonResult Post( [FromBody] String Ids, String IdSala)
+        public JsonResult Post( [FromForm] List<int> Ids, [FromForm] int IdSala)
         {
 
            /* Ids.ForEach(Id =>

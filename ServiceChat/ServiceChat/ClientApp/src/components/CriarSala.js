@@ -36,22 +36,23 @@ export default function CriarSala({ getUtilizadores }) {
 			const objteste = { value: Number(localStorage.getItem("user")) };
 			selectedOptions.unshift(objteste);
 
-			formData.append("Ids", Number(selectedOptions.map((e) => e.value)));
-			formData.append("IdSala", Number(salas[salas.length - 1].Id));
+			formData.append(
+				"Ids",
+				JSON.stringify(selectedOptions.map((e) => e.value))
+			);
+			formData.append("IdSala", salas[salas.length - 1].Id);
 
-			const json = JSON.stringify({
-				Ids: selectedOptions.map((e) => Number(e.value)),
-				IdSala: Number(salas[salas.length - 1].Id),
-			});
-
-			console.log(json);
+			const json = {
+				Ids: JSON.stringify(selectedOptions.map((e) => e.value)),
+				IdSala: salas[salas.length - 1].Id,
+			};
 
 			axios({
 				method: "post",
 				url: "/api/criar_sala",
 				data: json,
 				headers: {
-					"Content-Type": "application/json; charset=UTF-8",
+					"Content-Type": "application/json",
 				},
 			})
 				.then((response) => {
@@ -59,7 +60,7 @@ export default function CriarSala({ getUtilizadores }) {
 				})
 				.catch((response) => console.log("error", response));
 		} catch (ex) {
-			console.log(ex.response);
+			console.log(ex);
 		}
 	};
 
