@@ -49,11 +49,11 @@ namespace ServiceChat.Controllers
         public JsonResult Post( [FromForm] List<int> Ids, [FromForm] int IdSala)
         {
 
-           /* Ids.ForEach(Id =>
+            Ids.ForEach(Id =>
             {
                 int isAdmin = 0;
                 
-                if (Ids[Id] == 1)
+                if (Ids[Id] == Ids[0])
                 {
                     isAdmin = 1;
                 }
@@ -75,7 +75,7 @@ namespace ServiceChat.Controllers
                         myCommand.Parameters.AddWithValue("@Saiu", 0);
                         myCommand.Parameters.AddWithValue("@Lido", 0);
                         myCommand.Parameters.AddWithValue("@Updated_At", DateTime.Now);
-                        myCommand.Parameters.AddWithValue("@Id_Grupo", 11);
+                        myCommand.Parameters.AddWithValue("@Id_Grupo", IdSala);
                         myCommand.Parameters.AddWithValue("@Id_Utilizador", Ids[Id]);
                         myReader = myCommand.ExecuteReader();
                         table.Load(myReader);
@@ -83,7 +83,7 @@ namespace ServiceChat.Controllers
                         myCon.Close();
                     }
                 }
-            });*/
+            });
             
             return new JsonResult("Utilizador Adicionado!");
         }

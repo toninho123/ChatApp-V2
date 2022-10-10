@@ -23,42 +23,50 @@ export default function CriarSala({ getUtilizadores }) {
 
 	const adicionarUtilizadores = () => {
 		const formData = new FormData();
+
 		try {
-			/*axios.post("api/chat_grupos", {
-				Nome: "novasalateste",
-				Id_Curso: 1,
-				Id_Entidade: 1,
-				Capa: "CapaX",
-				Ativo: false,
-				Tipo: 0,
-			});*/
-
-			const objteste = { value: Number(localStorage.getItem("user")) };
-			selectedOptions.unshift(objteste);
-
-			formData.append(
-				"Ids",
-				JSON.stringify(selectedOptions.map((e) => e.value))
-			);
-			formData.append("IdSala", salas[salas.length - 1].Id);
-
-			const json = {
-				Ids: JSON.stringify(selectedOptions.map((e) => e.value)),
-				IdSala: salas[salas.length - 1].Id,
-			};
-
-			axios({
-				method: "post",
-				url: "/api/criar_sala",
-				data: json,
-				headers: {
-					"Content-Type": "application/json",
-				},
-			})
-				.then((response) => {
-					console.log(response);
+			axios
+				.post("api/chat_grupos", {
+					Nome: "novasalateste",
+					Id_Curso: 1,
+					Id_Entidade: 1,
+					Capa: "CapaX",
+					Ativo: false,
+					Tipo: 0,
 				})
-				.catch((response) => console.log("error", response));
+				.then(function (response) {
+					const objteste = { value: Number(localStorage.getItem("user")) };
+					selectedOptions.unshift(objteste);
+					console.log(response);
+
+					formData.append(
+						"Ids",
+						JSON.stringify(selectedOptions.map((e) => e.value))
+					);
+					formData.append("IdSala", salas[salas.length - 1].Id + 1);
+
+					console.log(formData);
+
+					console.log(salas[salas.length - 1].Id);
+
+					const json = {
+						Ids: JSON.stringify(selectedOptions.map((e) => e.value)),
+						IdSala: salas[salas.length - 1].Id,
+					};
+
+					axios({
+						method: "post",
+						url: "/api/criar_sala",
+						data: formData,
+						headers: {
+							"Content-Type": "application/json",
+						},
+					})
+						.then((response) => {
+							console.log(response);
+						})
+						.catch((response) => console.log("error", response));
+				});
 		} catch (ex) {
 			console.log(ex);
 		}

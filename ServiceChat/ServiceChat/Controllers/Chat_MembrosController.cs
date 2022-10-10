@@ -47,7 +47,7 @@ namespace ServiceChat.Controllers
         [HttpPost]
         public JsonResult Post(Chat_Membros grupo)
         {
-            string query = @"insert into Grupo values (@Id, @Ativo, @Administrador, @Dt_Criado, @Id_Grupo, @Id_Utilizador)";
+            string query = @"insert into Grupo (Ativo, Administrador, Dt_Criado, Id_Grupo, Id_Utilizador) values (@Ativo, @Administrador, @Dt_Criado, @Id_Grupo, @Id_Utilizador)";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("Default");
@@ -56,7 +56,6 @@ namespace ServiceChat.Controllers
                 myCon.Open();
                 using (MySqlCommand myCommand = new(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@Id", grupo.Id);
                     myCommand.Parameters.AddWithValue("@Ativo", grupo.Ativo);
                     myCommand.Parameters.AddWithValue("@Dt_Criado", grupo.Dt_Criado);
                     myCommand.Parameters.AddWithValue("@Administrador", grupo.Administrador);
