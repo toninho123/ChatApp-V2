@@ -44,6 +44,7 @@ namespace ServiceChat.Controllers
         [HttpPost]
         public JsonResult Post(Chat_Grupos sala)
         {
+            long lastId = 0;
             string query = @"insert into sala (Nome, Id_Curso, Id_Entidade, Capa, Dt_Criado, Ativo, Tipo, Updated_At) 
                             values (@Nome, @Id_Curso, @Id_Entidade, @Capa, @Dt_Criado, @Ativo, @Tipo, @Updated_At)";
 
@@ -65,10 +66,11 @@ namespace ServiceChat.Controllers
                     MySqlDataReader myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
+                    lastId = myCommand.LastInsertedId;
                     myCon.Close();
                 }
             }
-            return new JsonResult("Sala Adicionada!");
+            return new JsonResult(lastId);
         }
 
 

@@ -9,7 +9,7 @@ import { RoomContext } from "../provider/Room";
 export default function ListaContactos(props) {
 	const [grupo, setGrupo] = useState([]);
 	const [getUtilizadores, setGetUtilizadores] = useState([]);
-
+	const [triggerSala, setTriggerSala] = useState(true);
 	const [filtro, setFiltro] = useState("");
 	const [ativarCriarSala, setAtivarCriarSala] = useState(false);
 	const user = useContext(AuthContext);
@@ -17,31 +17,33 @@ export default function ListaContactos(props) {
 	const { setRoomName } = useContext(RoomContext);
 
 	useEffect(() => {
-		axios
-			.get("api/chat_membros", {
-				params: {
-					id: localStorage.getItem("user"),
-				},
-			})
-			.then(function (response) {
-				setGrupo(response.data);
-				if (response.data.length) {
-					setRoom(response.data[0].Id);
-					setRoomName(response.data[0].Nome);
-					localStorage.setItem("room", response.data[0].Id);
-					localStorage.setItem("roomName", response.data[0].Nome);
-				}
-			}),
+		if (triggerSala)
 			axios
-				.get("api/criar_sala", {
+				.get("api/chat_membros", {
 					params: {
 						id: localStorage.getItem("user"),
 					},
 				})
-				.then(function (res) {
-					setGetUtilizadores(res.data);
-				});
-	}, []);
+				.then(function (response) {
+					setGrupo(response.data);
+					if (response.data.length) {
+						setRoom(response.data[0].Id);
+						setRoomName(response.data[0].Nome);
+						setTriggerSala(false);
+						localStorage.setItem("room", response.data[0].Id);
+						localStorage.setItem("roomName", response.data[0].Nome);
+					}
+				}),
+				axios
+					.get("api/criar_sala", {
+						params: {
+							id: localStorage.getItem("user"),
+						},
+					})
+					.then(function (res) {
+						setGetUtilizadores(res.data);
+					});
+	}, [triggerSala]);
 
 	return (
 		<div className='border-b border-gray-200 xl:border-b-0 xl:flex-shrink-0 xl:w-96 xl:border-r xl:border-black bg-gray-200'>
@@ -63,7 +65,10 @@ export default function ListaContactos(props) {
 				</button>
 				<div className='h-full relative'>
 					{ativarCriarSala ? (
-						<CriarSala getUtilizadores={getUtilizadores} />
+						<CriarSala
+							getUtilizadores={getUtilizadores}
+							setTriggerSala={setTriggerSala}
+						/>
 					) : (
 						<>
 							<Procurar search={filtro} setSearch={setFiltro} />

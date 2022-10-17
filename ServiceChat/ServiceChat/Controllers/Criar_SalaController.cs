@@ -46,17 +46,8 @@ namespace ServiceChat.Controllers
 
 
         [HttpPost]
-        public JsonResult Post( [FromForm] List<int> Ids, [FromForm] int IdSala)
+        public JsonResult Post(Chat_Membros grupo)
         {
-
-            Ids.ForEach(Id =>
-            {
-                int isAdmin = 0;
-                
-                if (Ids[Id] == Ids[0])
-                {
-                    isAdmin = 1;
-                }
                 
                 string query = @"INSERT INTO Grupo(Ativo, Administrador, Dt_Criado, Saiu, Lido, Updated_At, Id_Grupo, Id_Utilizador) VALUES 
                                (@Ativo, @Administrador, @Dt_Criado, @Saiu, @Lido, @Updated_At, @Id_Grupo, @Id_Utilizador)";
@@ -70,20 +61,19 @@ namespace ServiceChat.Controllers
                     using (MySqlCommand myCommand = new MySqlCommand(query, myCon))
                     {
                         myCommand.Parameters.AddWithValue("@Ativo", true);
-                        myCommand.Parameters.AddWithValue("@Administrador", isAdmin);
+                        myCommand.Parameters.AddWithValue("@Administrador", grupo.Administrador);
                         myCommand.Parameters.AddWithValue("@Dt_Criado", DateTime.Now);
                         myCommand.Parameters.AddWithValue("@Saiu", 0);
                         myCommand.Parameters.AddWithValue("@Lido", 0);
                         myCommand.Parameters.AddWithValue("@Updated_At", DateTime.Now);
-                        myCommand.Parameters.AddWithValue("@Id_Grupo", IdSala);
-                        myCommand.Parameters.AddWithValue("@Id_Utilizador", Ids[Id]);
+                        myCommand.Parameters.AddWithValue("@Id_Grupo", grupo.Id_Grupo);
+                        myCommand.Parameters.AddWithValue("@Id_Utilizador", grupo.Id_Utilizador);
                         myReader = myCommand.ExecuteReader();
                         table.Load(myReader);
                         myReader.Close();
                         myCon.Close();
                     }
                 }
-            });
             
             return new JsonResult("Utilizador Adicionado!");
         }
